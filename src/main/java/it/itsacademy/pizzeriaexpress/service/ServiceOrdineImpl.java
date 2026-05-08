@@ -9,22 +9,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class ServiceOrdineImpl implements OrdineUtility {
+public class ServiceOrdineImpl implements ServiceOrdine {
 
     @Autowired
     private OrdineRepository ordineRepository;
 
     @Autowired
-    private OrdineUtility ordineUtility;
+    private OrdineUtility utilOrdine;
+
 
 
     @Override
-    public Ordine ordineDTOToOrdine(OrdineDTO ordineDTO) {
+    public OrdineDTO crea(OrdineDTO ordineDTO) {
         return null;
     }
 
     @Override
-    public OrdineDTO ordineToOrdineDTO(Ordine ordine) {
+    public OrdineDTO cerca(String codice) {
         return null;
     }
+
+    @Override
+    public OrdineDTO modifica(String codice, OrdineDTO ordineDTO) {
+        return null;
+    }
+
+    @Override
+    public OrdineDTO cancella(String Codice) {
+        return null;
+    }
+
+
 }
