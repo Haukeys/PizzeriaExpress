@@ -9,6 +9,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class ServicePizzaImpl implements ServicePizza {
@@ -38,7 +41,17 @@ public class ServicePizzaImpl implements ServicePizza {
         );
         return utilPizza.pizzaToPizzaDTO(target);
 
-    }   @Override
+    }
+
+    @Override
+    public List<PizzaDTO> tutteLePizze() {
+        return pizzaRepository.findAll()
+                .stream()
+                .map(utilPizza::pizzaToPizzaDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PizzaDTO cancellaPizza(Long id) {
         PizzaDTO target = trovaPizza(id);
         pizzaRepository.deleteById(id);

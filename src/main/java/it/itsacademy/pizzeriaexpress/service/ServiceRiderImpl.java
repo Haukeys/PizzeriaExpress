@@ -9,8 +9,6 @@ import it.itsacademy.pizzeriaexpress.utility.RiderUtility;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +32,14 @@ public class ServiceRiderImpl implements ServiceRider {
     public RiderDTO cerca(Long id) {
         Rider target = riderRepository.findById(id).orElseThrow(()->new NotFoundException("Rider non trovato o inesistente"));
         return utilRider.riderToRiderDTO(target);
+    }
+
+    @Override
+    public RiderDTO modifica(Long id, RiderDTO riderDTO) {
+        riderDTO.setId(id);
+        cerca(id);
+        Rider saved =  riderRepository.save(utilRider.riderDTOToRider(riderDTO));
+        return utilRider.riderToRiderDTO(saved);
     }
 
     @Override
