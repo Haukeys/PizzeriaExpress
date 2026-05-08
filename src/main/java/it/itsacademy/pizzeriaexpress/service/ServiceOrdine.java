@@ -8,5 +8,4 @@ public interface ServiceOrdine {
     public OrdineDTO cerca(String codice);
     public OrdineDTO modifica(String codice,OrdineDTO ordineDTO);
     public OrdineDTO cancella(String Codice);
-
 }
