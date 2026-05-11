@@ -1,10 +1,12 @@
 package it.itsacademy.pizzeriaexpress.repository;
 
 import it.itsacademy.pizzeriaexpress.entity.Pizza;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collection;
@@ -21,16 +23,15 @@ public class PizzaRepositoryTest {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-
     @Test
     public void testPizzaSave() {
         Pizza pizza = new Pizza();
-        pizza.setId(1L);
         pizza.setNome("Margherita");
         pizza.setDescrizione("Pomodoro, Mozzarella, Basilico");
         pizza.setPrezzo(5.99);
 
         Pizza savedPizza = pizzaRepository.save(pizza);
+
         assertNotNull(savedPizza);
         assertEquals(pizza.getId(), savedPizza.getId());
 
@@ -38,7 +39,6 @@ public class PizzaRepositoryTest {
     @Test
     public void testPizzaUpdate() {
         Pizza pizza = new Pizza();
-        pizza.setId(1L);
         pizza.setNome("Rossa");
         pizza.setDescrizione("Pomodoro,Origano");
         pizza.setPrezzo(7.00);
@@ -53,8 +53,10 @@ public class PizzaRepositoryTest {
     @Test
     public void testPizzaFindById() {
         Pizza pizza = new Pizza();
-        pizza.setId(1L);
+
         pizza.setNome("Margherita");
+        pizza.setDescrizione("Pomodoro, Mozzarella, Basilico");
+        pizza.setPrezzo(7.00);
         Pizza saved = pizzaRepository.save(pizza);
 
         Optional<Pizza> found = pizzaRepository.findById(saved.getId());
@@ -66,8 +68,9 @@ public class PizzaRepositoryTest {
     @Test
     public void testPizzaDelete() {
         Pizza pizza = new Pizza();
-        pizza.setId(1L);
-        pizza.setNome("Calzone");
+        pizza.setNome("Margherita");
+        pizza.setDescrizione("Pomodoro, Mozzarella, Basilico");
+        pizza.setPrezzo(7.00);
         Pizza saved = pizzaRepository.save(pizza);
 
         pizzaRepository.deleteById(saved.getId());
@@ -79,14 +82,12 @@ public class PizzaRepositoryTest {
     public void testPizzaFindAll() {
         //
         Pizza p1 = new Pizza();
-        p1.setId(1L);
-        p1.setNome("Margherita");
-        p1.setDescrizione("Pomodoro, Mozzarella, Basilico");
+        p1.setNome("Margheritadelux");
+        p1.setDescrizione("Pomodoro, Mozzarella di buffala, Basilico");
         p1.setPrezzo(6.00);
         pizzaRepository.save(p1);
 
         Pizza p2 = new Pizza();
-        p2.setId(1L);
         p2.setNome("4 Formaggi");
         p2.setDescrizione("mozzarella,pecorino,gorgonzola,buratta");
         p2.setPrezzo(8.50);
@@ -97,7 +98,7 @@ public class PizzaRepositoryTest {
 
 
         assertNotNull(pizzas);
-
+        assertEquals(2, pizzas.size());
     }
 }
 
