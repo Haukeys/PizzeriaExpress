@@ -9,8 +9,8 @@ import it.itsacademy.pizzeriaexpress.utility.RiderUtility;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import java.util.Collection;
 
 @Service
 @Transactional
@@ -50,10 +50,7 @@ public class ServiceRiderImpl implements ServiceRider {
     }
 
     @Override
-    public List<RiderDTO> tuttiRiders() {
-        return riderRepository.findAll()
-                .stream()
-                .map(utilRider::riderToRiderDTO)
-                .collect(Collectors.toList());
+    public Collection<RiderDTO> tuttiRiders() {
+        return utilRider.tuttiRiders(riderRepository.findAll());
     }
 }

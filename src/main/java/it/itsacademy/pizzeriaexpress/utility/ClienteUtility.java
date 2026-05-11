@@ -5,10 +5,12 @@ import it.itsacademy.pizzeriaexpress.dto.ClienteDTO;
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
 import org.mapstruct.Mapper;
 
+import java.util.Collection;
+
 @Mapper(componentModel = "spring")
 public interface ClienteUtility {
 
     public  Cliente clienteDTOToCliente(ClienteDTO clienteDTO);
     public  ClienteDTO clienteToClienteDTO(Cliente cliente);
-
+    public Collection<ClienteDTO> tuttiClienti(Collection<Cliente> clienti);
 }

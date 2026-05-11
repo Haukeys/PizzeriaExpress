@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +40,6 @@ public class ServiceClienteImpl implements ServiceCliente {
     @Override
     public ClienteDTO modifica(Long id, ClienteDTO clienteDTO) {
         clienteDTO.setId(id);
-        cerca(id);
         Cliente saved = clienteRepository.save(utilCliente.clienteDTOToCliente(clienteDTO));
         return utilCliente.clienteToClienteDTO(saved);
 
@@ -55,11 +54,8 @@ public class ServiceClienteImpl implements ServiceCliente {
     }
 
     @Override
-    public List<ClienteDTO> tuttiCLienti() {
-        return clienteRepository.findAll()
-                .stream()
-                .map(utilCliente::clienteToClienteDTO)
-                .collect(Collectors.toList());
+    public Collection<ClienteDTO> tuttiClienti() {
+        return utilCliente.tuttiClienti(clienteRepository.findAll());
     }
 
 }

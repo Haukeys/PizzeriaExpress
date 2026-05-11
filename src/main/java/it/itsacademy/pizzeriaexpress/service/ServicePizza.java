@@ -2,7 +2,8 @@ package it.itsacademy.pizzeriaexpress.service;
 
 import it.itsacademy.pizzeriaexpress.dto.PizzaDTO;
 
-import java.util.List;
+import java.util.Collection;
+
 
 public interface ServicePizza {
 
@@ -10,5 +11,5 @@ public interface ServicePizza {
     public PizzaDTO modificaPizza(Long id,PizzaDTO pizzaDTO);
     public PizzaDTO cancellaPizza(Long id);
     public PizzaDTO trovaPizza(Long id);
-    public List<PizzaDTO> tutteLePizze();
+    public Collection<PizzaDTO> tutteLePizze();
 }
