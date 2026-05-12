@@ -2,12 +2,19 @@ package it.itsacademy.pizzeriaexpress.repository;
 
 
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
+import it.itsacademy.pizzeriaexpress.entity.Pizza;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Collection;
+import java.util.Optional;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -20,18 +27,92 @@ public class ClienteRepositoryTest {
     private ClienteRepository clienteRepository;
 
     @Test
-    public void shouldSaveAndFindCliente(){
-        // creation de lobject/entiter
-        Cliente c = new Cliente();
-        c.setNome("Cyril MV");
-        c.setIndirizzo("via mosca 1");
-        c.setTelefono("818718717");
+    public void testRegistraCliente() {
 
-        //sauvegarde ou enregistrement de l object/e
+        Cliente c = new Cliente();
+
+        c.setNome("Matt Murdock");
+        c.setIndirizzo("via Laurentina 1");
+        c.setTelefono("98498489489");
+
         Cliente saved = clienteRepository.save(c);
 
-        //on verifie que c est sauvegarder et si les donner sont egale a ce que l on met en input dans assertEquals
-        assertNotNull(saved);
-        assertEquals("Cyril MV",saved.getNome());
+        Assert.assertNotNull(saved);
+        assertEquals(c.getId(), saved.getId());
+
+    }
+    @Test
+    public void testModificaCliente() {
+
+        Cliente c = new Cliente();
+
+        c.setNome("Adam Warlock");
+        c.setIndirizzo("via Manzoni 12");
+        c.setTelefono("16515613219841");
+
+        Cliente saved = clienteRepository.save(c);
+
+        saved.setNome("Maria");
+        Cliente updated = clienteRepository.save(saved);
+
+        assertEquals("Maria", updated.getNome());
+    }
+
+    @Test
+    public void testCercaCliente() {
+
+        Cliente c = new Cliente();
+
+        c.setNome("Natasha Romanov");
+        c.setIndirizzo("via Fermi 12");
+        c.setTelefono("162325615616");
+
+        Cliente saved = clienteRepository.save(c);
+
+        Optional<Cliente> found = clienteRepository.findById(saved.getId());
+
+        assertTrue(found.isPresent());
+        assertEquals(saved.getId(), found.get().getId());
+    }
+
+    @Test
+    public void testEliminaCliente() {
+
+        Cliente c = new Cliente();
+
+        c.setNome("Matt Murdock");
+        c.setIndirizzo("via Laurentina 1");
+        c.setTelefono("98498489489");
+
+        Cliente saved = clienteRepository.save(c);
+
+        clienteRepository.deleteById(saved.getId());
+        Optional<Cliente> deleted = clienteRepository.findById(saved.getId());
+
+        assertFalse(deleted.isPresent());
+    }
+    @Test
+    public void testTuttiIClienti() {
+        //
+        Cliente c1 = new Cliente();
+
+        c1.setNome("Natasha Romanov");
+        c1.setIndirizzo("via Fermi 12");
+        c1.setTelefono("162325615616");
+        clienteRepository.save(c1);
+
+        Cliente c2 = new Cliente();
+
+        c2.setNome("Matt Murdock");
+        c2.setIndirizzo("via Laurentina 1");
+        c2.setTelefono("98498489489");
+        clienteRepository.save(c2);
+
+
+        Collection<Cliente> clienti = clienteRepository.findAll();
+
+
+        Assert.assertNotNull(clienti);
+        assertEquals(2, clienti.size());
     }
 }
