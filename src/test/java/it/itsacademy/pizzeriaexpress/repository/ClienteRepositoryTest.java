@@ -36,7 +36,7 @@ public class ClienteRepositoryTest {
 
         Cliente saved = clienteRepository.save(c);
 
-        Assert.assertNotNull(saved);
+        assertNotNull(saved);
         assertEquals(c.getId(), saved.getId());
 
     }
