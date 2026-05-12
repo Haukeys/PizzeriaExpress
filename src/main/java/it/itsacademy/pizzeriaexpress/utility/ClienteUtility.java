@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 import java.util.Collection;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {OrdineUtility.class})//car utiliser dans cette classe {} facilite l autocreation/complilation
 public interface ClienteUtility {
 
     public  Cliente clienteDTOToCliente(ClienteDTO clienteDTO);
