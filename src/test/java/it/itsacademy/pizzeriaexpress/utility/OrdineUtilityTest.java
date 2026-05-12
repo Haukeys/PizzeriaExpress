@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @Mapper(componentModel = "spring", uses ={OrdinePizzaUtility.class})//car utiliser dans cette classe {} facilite l autocreation/complilation
 public interface OrdineUtilityTest {
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
     public Ordine ordineDTOToOrdine(OrdineDTO ordineDTO);
     public OrdineDTO ordineToOrdineDTO(Ordine ordine);
     public Collection<OrdineDTO> tuttiOrdini(Collection<Ordine> ordini);

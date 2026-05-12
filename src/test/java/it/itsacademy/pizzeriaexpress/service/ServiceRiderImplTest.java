@@ -1,8 +1,8 @@
 package it.itsacademy.pizzeriaexpress.service;
 
-import it.itsacademy.pizzeriaexpress.dto.ClienteDTO;
+
 import it.itsacademy.pizzeriaexpress.dto.RiderDTO;
-import it.itsacademy.pizzeriaexpress.entity.Cliente;
+
 import it.itsacademy.pizzeriaexpress.entity.Rider;
 import it.itsacademy.pizzeriaexpress.repository.RiderRepository;
 import it.itsacademy.pizzeriaexpress.utility.RiderUtility;
@@ -43,7 +43,6 @@ public class ServiceRiderImplTest {
     @Test
     public void testRegistraRider() {
         Rider r = new Rider();
-        /**r.setId(1L); first entity so id 1L **/
         r.setNome("Peter Parcker");
 
         when(riderRepository.findById(1L)).thenReturn(java.util.Optional.of(r));

@@ -111,7 +111,7 @@ public class ClienteRepositoryTest {
         Collection<Cliente> clienti = clienteRepository.findAll();
 
 
-        Assert.assertNotNull(clienti);
+        assertNotNull(clienti);
         assertEquals(2, clienti.size());
     }
 }
