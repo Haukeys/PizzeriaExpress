@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -20,10 +21,10 @@ public class Ordine {
     @Id
     private String codice;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.MERGE},orphanRemoval = true)//Merge car il ne fait pas l auto incrementation car ici
     @JoinColumn(name="fk_ordine_pizza")
     @Column(nullable = false)
-    private List<OrdinePizza> ordini_pizze;
+    private Collection<OrdinePizza> ordini_pizze;
 
     @OneToMany
     @JoinColumn(name="fk_cliente")

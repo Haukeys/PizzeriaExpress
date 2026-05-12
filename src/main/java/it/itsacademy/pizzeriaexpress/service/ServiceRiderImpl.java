@@ -37,7 +37,6 @@ public class ServiceRiderImpl implements ServiceRider {
     @Override
     public RiderDTO modifica(Long id, RiderDTO riderDTO) {
         riderDTO.setId(id);
-        cerca(id);
         Rider saved =  riderRepository.save(utilRider.riderDTOToRider(riderDTO));
         return utilRider.riderToRiderDTO(saved);
     }
