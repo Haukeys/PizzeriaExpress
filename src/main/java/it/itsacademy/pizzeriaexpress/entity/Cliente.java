@@ -24,4 +24,8 @@ public class Cliente {
     @Column(nullable = false)
     private String telefono;
 
+    @OneToMany(orphanRemoval = true)//non dimenticare che il cliente fa degli ordini
+    @JoinColumn(name="fk_ordine")
+    @Column(nullable = false)
+    private List<Ordine> ordini;
 }
