@@ -42,7 +42,7 @@ public class ServiceRiderImpl implements ServiceRider {
     }
 
     @Override
-    public RiderDTO Licenzia(Long id) {
+    public RiderDTO licenzia(Long id) {
         RiderDTO target = cerca(id);
         riderRepository.deleteById(id);
         return target;

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ErroreDTO {
     private String timestamp = java.time.LocalDateTime.now().toString();
-    private int status;
+    private Integer status;
     private String error;
     private String message;
 
