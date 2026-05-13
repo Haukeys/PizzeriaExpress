@@ -49,7 +49,7 @@ public class ServiceClienteImplTest {
         c.setTelefono("98181981");
 
         when(clienteRepository.findById(1L)).thenReturn(java.util.Optional.of(c));
-        when(clienteUtility.clienteToClienteDTO(c)).thenReturn(new ClienteDTO(1L, "Matt Pokora", "Via Manzini 8", "98181981"));
+        when(clienteUtility.clienteToClienteDTO(c)).thenReturn(new ClienteDTO(1L, "Matt Pokora", "Via Manzini 8", "98181981",null));
         assertEquals("Matt Pokora", serviceCliente.cerca(1L).getNome());
 
     }
@@ -63,7 +63,7 @@ public class ServiceClienteImplTest {
         c.setIndirizzo("Via Manzini 8");
         c.setTelefono("98181981");
 
-        ClienteDTO clienteDTO = new ClienteDTO (1L, "Matt Pokora", "Via Manzini 8", "98181981");
+        ClienteDTO clienteDTO = new ClienteDTO (1L, "Matt Pokora", "Via Manzini 8", "98181981",null);
 
         when(clienteRepository.findById(1L)).thenReturn(java.util.Optional.of(c));
         when(clienteUtility.clienteToClienteDTO(c)).thenReturn(clienteDTO);
@@ -78,10 +78,10 @@ public class ServiceClienteImplTest {
     public void testModificaCliente(){
 
         Long id = 1L;
-        ClienteDTO inputDTO = new ClienteDTO( null, "Jiraya LeCochon","Via Valleariccia 7","87987987987");
+        ClienteDTO inputDTO = new ClienteDTO( null, "Jiraya LeCochon","Via Valleariccia 7","87987987987",null);
         Cliente c = new Cliente();
         Cliente savedCliente = new Cliente();
-        ClienteDTO outputDTO = new ClienteDTO(id,"Jiraya LeCochon","Via Valleariccia 7","87987987987");
+        ClienteDTO outputDTO = new ClienteDTO(id,"Jiraya LeCochon","Via Valleariccia 7","87987987987",null);
 
         when(clienteUtility.clienteDTOToCliente(any(ClienteDTO.class))).thenReturn(c);
         when(clienteRepository.save(any(Cliente.class))).thenReturn(savedCliente);
@@ -100,7 +100,7 @@ public class ServiceClienteImplTest {
 
         Long id = 1L;
         Cliente c = new Cliente();
-        ClienteDTO clienteDTO = new ClienteDTO(id , "Matt Pokora", "Via Manzini 8", "87987987987");
+        ClienteDTO clienteDTO = new ClienteDTO(id , "Matt Pokora", "Via Manzini 8", "87987987987",null);
 
         when(clienteRepository.findById(id)).thenReturn(java.util.Optional.of(c));
         when(clienteUtility.clienteToClienteDTO(c)).thenReturn(clienteDTO);
@@ -138,8 +138,8 @@ public class ServiceClienteImplTest {
 
         // On crée les DTO correspondants (ce que le mapper doit renvoyer)
         Collection<ClienteDTO> clientiDTO = Arrays.asList(
-                new ClienteDTO(1L, "Matt Pokora", "Via Manzini 8", "98181981"),
-                new ClienteDTO(2L,"Jiraya Lecochon","Via Valleariccia 7", "87987987987")
+                new ClienteDTO(1L, "Matt Pokora", "Via Manzini 8", "98181981",null),
+                new ClienteDTO(2L,"Jiraya Lecochon","Via Valleariccia 7", "87987987987",null)
         );
 
         when(clienteRepository.findAll()).thenReturn(clienti);

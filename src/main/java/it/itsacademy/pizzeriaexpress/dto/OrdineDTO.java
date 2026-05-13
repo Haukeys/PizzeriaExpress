@@ -1,9 +1,6 @@
 package it.itsacademy.pizzeriaexpress.dto;
 
-import it.itsacademy.pizzeriaexpress.entity.Cliente;
-import it.itsacademy.pizzeriaexpress.entity.OrdinePizza;
-import it.itsacademy.pizzeriaexpress.entity.Rider;
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,7 @@ import java.util.List;
 public class OrdineDTO {
 
     private String codice;
-    private Collection<OrdinePizza> ordini_pizze;
-    private List<Cliente> clienti;
-    private List<Rider> riders;
+    private Collection<OrdinePizzaDTO> ordini_pizze;
+    private List<ClienteDTO> clienti;
+    private List<RiderDTO> riders;
 }

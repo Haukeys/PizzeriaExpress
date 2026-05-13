@@ -1,5 +1,6 @@
 package it.itsacademy.pizzeriaexpress.service;
 import it.itsacademy.pizzeriaexpress.dto.OrdineDTO;
+import it.itsacademy.pizzeriaexpress.dto.OrdinePizzaDTO;
 import it.itsacademy.pizzeriaexpress.dto.PizzaDTO;
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
 import it.itsacademy.pizzeriaexpress.entity.Ordine;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @Service
 @Transactional
@@ -36,6 +37,7 @@ public class ServiceOrdineImpl implements ServiceOrdine {
 
    Cliente clienteDelOrdine = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
 
+   //controllo che un ordine abbia almeno una pizza
         if(ordineDTO.getOrdini_pizze()==null || ordineDTO.getOrdini_pizze().isEmpty()){
             throw new BadRequestException("L'ordine deve contenere almeno una pizza");
         }
@@ -48,27 +50,42 @@ public class ServiceOrdineImpl implements ServiceOrdine {
 
     @Override
     public OrdineDTO cercaOrdine(Long id, String codice) {
-        return null;
+        Cliente clienteDelOrdine = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
+        Ordine found = clienteDelOrdine.getOrdini().stream()
+                .filter(ordine -> ordine.getCodice().equals(codice))
+                .findFirst().orElseThrow(()-> new NotFoundException("Ordine con "+codice+" non trovato"));
+        return utilOrdine.ordineToOrdineDTO(found);
     }
 
     @Override
     public OrdineDTO modificaOrdine(Long id, String codice, OrdineDTO ordineDTO) {
-        return null;
+        ordineDTO.setCodice(codice);
+        cercaOrdine(id, codice);
+        Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(ordineDTO));
+        return utilOrdine.ordineToOrdineDTO(saved);
     }
 
     @Override
-    public OrdineDTO cancellaOrdine(Long id, String Codice) {
-        return null;
+    public OrdineDTO cancellaOrdine(Long id, String codice) {
+        OrdineDTO target = cercaOrdine(id,codice);
+        clienteRepository.deleteById(id);
+        return target;
     }
 
     @Override
-    public Collection<OrdineDTO> tuttiOrdini() {
-        return List.of();
-    }
+    public Collection<OrdineDTO> tuttiOrdini(){
+       return utilOrdine.tuttiOrdini(ordineRepository.findAll());
+   }
 
     @Override
-    public OrdineDTO aggiungiPizza(Long id, String codice, PizzaDTO pizzaDTO, Integer quantita) {
-        return null;
+    public OrdineDTO aggiungiPizza(Long id, String codice, PizzaDTO pizza ,Integer quantita) {
+        PizzaDTO p = pizzaService.trovaPizza(id);
+
+        OrdineDTO ordineDTO = cercaOrdine(id,codice);
+        ordineDTO.getOrdini_pizze().add(new OrdinePizzaDTO(quantita, pizza));
+
+        Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(ordineDTO));
+        return utilOrdine.ordineToOrdineDTO(saved);
     }
 
 }
