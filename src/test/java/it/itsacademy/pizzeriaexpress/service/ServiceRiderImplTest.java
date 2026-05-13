@@ -96,7 +96,7 @@ public class ServiceRiderImplTest {
         when(riderRepository.findById(id)).thenReturn(java.util.Optional.of(r));
         when(riderUtility.riderToRiderDTO(r)).thenReturn(riderDTO);
 
-        RiderDTO result = serviceRiderImpl.Licenzia(id);
+        RiderDTO result = serviceRiderImpl.licenzia(id);
 
         assertNotNull(result);
         assertEquals(id,result.getId());
