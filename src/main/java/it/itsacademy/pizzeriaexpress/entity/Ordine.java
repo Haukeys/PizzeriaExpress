@@ -28,7 +28,7 @@ public class Ordine {
 
     @ManyToOne
     @JoinColumn(name="fk_rider")
-    private Rider riders;
+    private Rider rider;
 
 
 }

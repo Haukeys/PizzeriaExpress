@@ -15,5 +15,5 @@ public class OrdineDTO {
 
     private String codice;
     private Collection<OrdinePizzaDTO> ordini_pizze;
-    private RiderDTO riders;
+    private RiderDTO rider;
 }

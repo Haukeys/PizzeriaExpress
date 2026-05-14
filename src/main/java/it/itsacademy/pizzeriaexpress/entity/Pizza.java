@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idPizza;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)

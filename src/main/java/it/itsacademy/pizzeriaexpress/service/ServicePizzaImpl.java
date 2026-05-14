@@ -30,15 +30,15 @@ public class ServicePizzaImpl implements ServicePizza {
     }
 
     @Override
-    public PizzaDTO modificaPizza(Long id,PizzaDTO pizzaDTO) {
-        pizzaDTO.setId(id);
+    public PizzaDTO modificaPizza(Long idPizza,PizzaDTO pizzaDTO) {
+        pizzaDTO.setId(idPizza);
         Pizza saved = pizzaRepository.save(utilPizza.pizzaDTOToPizza(pizzaDTO));
         return utilPizza.pizzaToPizzaDTO(saved);
     }
 
     @Override
-    public PizzaDTO trovaPizza(Long id) {
-        Pizza target = pizzaRepository.findById(id).orElseThrow(()-> new NotFoundException("Pizza non trovata")
+    public PizzaDTO trovaPizza(Long idPizza) {
+        Pizza target = pizzaRepository.findById(idPizza).orElseThrow(()-> new NotFoundException("Pizza non trovata")
         );
         return utilPizza.pizzaToPizzaDTO(target);
 
@@ -50,9 +50,9 @@ public class ServicePizzaImpl implements ServicePizza {
     }
 
     @Override
-    public PizzaDTO cancellaPizza(Long id) {
-        PizzaDTO target = trovaPizza(id);
-        pizzaRepository.deleteById(id);
+    public PizzaDTO cancellaPizza(Long idPizza) {
+        PizzaDTO target = trovaPizza(idPizza);
+        pizzaRepository.deleteById(idPizza);
         return target;
 
     }

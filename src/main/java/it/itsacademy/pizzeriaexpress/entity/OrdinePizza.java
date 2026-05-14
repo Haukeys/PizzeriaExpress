@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name="OrdinePizza")
 public class OrdinePizza {
     @Id
-    private Long id;
+    private Long idOrdinePizza;
     private Integer quantita;
 
     @ManyToOne

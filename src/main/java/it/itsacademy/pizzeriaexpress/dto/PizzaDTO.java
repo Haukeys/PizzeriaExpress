@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 public class PizzaDTO {
 
-    private Long id;
+    private Long idPizza;
     private String nome;
     private String descrizione;
     private Double prezzo;

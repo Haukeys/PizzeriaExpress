@@ -20,15 +20,15 @@ public class RiderController {
         return serviceRider.registra(riderDTO);
     }
     @GetMapping(path = "/{id}", produces = "application/json ")
-    public RiderDTO cercaRider(@PathVariable Long id) {
-        return serviceRider.cerca(id);
+    public RiderDTO cercaRider(@PathVariable Long idRider) {
+        return serviceRider.cerca(idRider);
     }
     @GetMapping(produces = "application/json ")
     public Collection<RiderDTO> tuttiIRiders() {
         return serviceRider.tuttiRiders();
     }
     @DeleteMapping (path = "/{id}", produces = "application/json ")
-    public RiderDTO licenziaRider(@PathVariable Long id) {
-        return serviceRider.licenzia(id);
+    public RiderDTO licenziaRider(@PathVariable Long idRider) {
+        return serviceRider.licenzia(idRider);
     }
 }

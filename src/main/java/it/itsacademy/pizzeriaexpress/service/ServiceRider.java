@@ -7,8 +7,8 @@ import java.util.Collection;
 
 public interface ServiceRider {
     public RiderDTO registra(RiderDTO riderDTO);
-    public RiderDTO cerca(Long id);
-    public RiderDTO modifica(Long id,RiderDTO riderDTO);
-    public RiderDTO licenzia(Long id);
+    public RiderDTO cerca(Long idRider);
+    public RiderDTO modifica(Long idRider,RiderDTO riderDTO);
+    public RiderDTO licenzia(Long idRider);
     Collection<RiderDTO> tuttiRiders();
 }

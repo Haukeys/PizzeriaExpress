@@ -21,16 +21,16 @@ public class PizzaController {
         return servicePizza.creaPizza(pizzaDTO);
     }
     @GetMapping(path="/{id}", produces = "application/json")
-    public PizzaDTO cercaPizza(@PathVariable Long id) {
-        return  servicePizza.trovaPizza(id);
+    public PizzaDTO cercaPizza(@PathVariable Long idPizza) {
+        return  servicePizza.trovaPizza(idPizza);
     }
     @GetMapping(produces = "application/json")
     public Collection<PizzaDTO> menu() {
         return  servicePizza.tutteLePizze();
     }
     @DeleteMapping(path="/{id}", produces = "application/json")
-    public PizzaDTO eliminaPizza(@PathVariable Long id) {
-        return  servicePizza.cancellaPizza(id);
+    public PizzaDTO eliminaPizza(@PathVariable Long idPizza) {
+        return  servicePizza.cancellaPizza(idPizza);
     }
 
 }

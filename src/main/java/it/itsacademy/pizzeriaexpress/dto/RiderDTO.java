@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 
 public class RiderDTO {
 
-    private Long id;
+    private Long idRider;
     private String nome;
 }

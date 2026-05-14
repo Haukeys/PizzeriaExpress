@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    private Long id;
+    private Long idCliente;
     private String nome;
     private String Indirizzo;
     private String telefono;
