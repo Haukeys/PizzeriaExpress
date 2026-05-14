@@ -31,7 +31,7 @@ public class ServicePizzaImpl implements ServicePizza {
 
     @Override
     public PizzaDTO modificaPizza(Long idPizza,PizzaDTO pizzaDTO) {
-        pizzaDTO.setId(idPizza);
+        pizzaDTO.setIdPizza(idPizza);
         Pizza saved = pizzaRepository.save(utilPizza.pizzaDTOToPizza(pizzaDTO));
         return utilPizza.pizzaToPizzaDTO(saved);
     }

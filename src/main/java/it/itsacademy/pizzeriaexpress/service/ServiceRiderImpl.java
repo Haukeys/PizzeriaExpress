@@ -29,22 +29,22 @@ public class ServiceRiderImpl implements ServiceRider {
     }
 
     @Override
-    public RiderDTO cerca(Long id) {
-        Rider target = riderRepository.findById(id).orElseThrow(()->new NotFoundException("Rider non trovato o inesistente"));
+    public RiderDTO cerca(Long idRider) {
+        Rider target = riderRepository.findById(idRider).orElseThrow(()->new NotFoundException("Rider non trovato o inesistente"));
         return utilRider.riderToRiderDTO(target);
     }
 
     @Override
-    public RiderDTO modifica(Long id, RiderDTO riderDTO) {
-        riderDTO.setId(id);
+    public RiderDTO modifica(Long idRider, RiderDTO riderDTO) {
+        riderDTO.setIdRider(idRider);
         Rider saved =  riderRepository.save(utilRider.riderDTOToRider(riderDTO));
         return utilRider.riderToRiderDTO(saved);
     }
 
     @Override
-    public RiderDTO licenzia(Long id) {
-        RiderDTO target = cerca(id);
-        riderRepository.deleteById(id);
+    public RiderDTO licenzia(Long idRider) {
+        RiderDTO target = cerca(idRider);
+        riderRepository.deleteById(idRider);
         return target;
     }
 
