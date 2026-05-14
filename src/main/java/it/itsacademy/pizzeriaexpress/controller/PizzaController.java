@@ -20,7 +20,7 @@ public class PizzaController {
     public PizzaDTO createPizza(@RequestBody PizzaDTO pizzaDTO) {
         return servicePizza.creaPizza(pizzaDTO);
     }
-    @GetMapping(path="/{id}", produces = "application/json")
+    @GetMapping(path="/{idPizza}", produces = "application/json")
     public PizzaDTO cercaPizza(@PathVariable Long idPizza) {
         return  servicePizza.trovaPizza(idPizza);
     }
@@ -28,7 +28,7 @@ public class PizzaController {
     public Collection<PizzaDTO> menu() {
         return  servicePizza.tutteLePizze();
     }
-    @DeleteMapping(path="/{id}", produces = "application/json")
+    @DeleteMapping(path="/{idPizza}", produces = "application/json")
     public PizzaDTO eliminaPizza(@PathVariable Long idPizza) {
         return  servicePizza.cancellaPizza(idPizza);
     }

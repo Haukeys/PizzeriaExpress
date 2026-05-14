@@ -24,7 +24,7 @@ public class ClienteController {
         // On appelle la méthode de naissance que nous avons codée
         return serviceCliente.registrazione(registrazioneDTO);
     }
-    @GetMapping(path = "/{id}", produces = "application/json ")
+    @GetMapping(path = "/{idCliente}", produces = "application/json ")
     public ClienteDTO cercaCliente(@PathVariable Long idCliente) {
         return serviceCliente.cerca(idCliente);
     }
@@ -32,7 +32,7 @@ public class ClienteController {
     public Collection<ClienteDTO> tuttiIClienti() {
         return serviceCliente.tuttiClienti();
     }
-    @DeleteMapping (path = "/{id}", produces = "application/json ")
+    @DeleteMapping (path = "/{idCliente}", produces = "application/json ")
     public ClienteDTO eliminaCliente(@PathVariable Long idCliente) {
         return serviceCliente.cancella(idCliente);
     }
