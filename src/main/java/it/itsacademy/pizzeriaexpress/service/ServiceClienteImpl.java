@@ -48,8 +48,8 @@ public class ServiceClienteImpl implements ServiceCliente {
 
 
     @Override
-    public ClienteDTO modifica(Long id, ClienteDTO clienteDTO) {
-        clienteDTO.setId(idCliente);
+    public ClienteDTO modifica(Long idCliente, ClienteDTO clienteDTO) {
+        clienteDTO.setIdCliente(idCliente);
         Cliente saved = clienteRepository.save(utilCliente.clienteDTOToCliente(clienteDTO));
         return utilCliente.clienteToClienteDTO(saved);
 

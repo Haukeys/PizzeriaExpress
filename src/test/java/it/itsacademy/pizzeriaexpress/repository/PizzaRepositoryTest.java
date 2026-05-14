@@ -33,7 +33,7 @@ public class PizzaRepositoryTest {
         Pizza savedPizza = pizzaRepository.save(pizza);
 
         assertNotNull(savedPizza);
-        assertEquals(pizza.getId(), savedPizza.getId());
+        assertEquals(pizza.getIdPizza(), savedPizza.getIdPizza());
 
     }
     @Test
@@ -59,10 +59,10 @@ public class PizzaRepositoryTest {
         pizza.setPrezzo(7.00);
         Pizza saved = pizzaRepository.save(pizza);
 
-        Optional<Pizza> found = pizzaRepository.findById(saved.getId());
+        Optional<Pizza> found = pizzaRepository.findById(saved.getIdPizza());
 
         assertTrue(found.isPresent());
-        assertEquals(saved.getId(), found.get().getId());
+        assertEquals(saved.getIdPizza(), found.get().getIdPizza());
     }
 
     @Test
@@ -73,8 +73,8 @@ public class PizzaRepositoryTest {
         pizza.setPrezzo(7.00);
         Pizza saved = pizzaRepository.save(pizza);
 
-        pizzaRepository.deleteById(saved.getId());
-        Optional<Pizza> deleted = pizzaRepository.findById(saved.getId());
+        pizzaRepository.deleteById(saved.getIdPizza());
+        Optional<Pizza> deleted = pizzaRepository.findById(saved.getIdPizza());
 
         assertFalse(deleted.isPresent());
     }

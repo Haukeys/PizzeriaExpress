@@ -44,7 +44,7 @@ public class ServicePizzaImplTest {
     public void testCreatePizza() {
 
         Pizza pizzaEntity = new Pizza();
-        pizzaEntity.setId(1L);
+        pizzaEntity.setIdPizza(1L);
         pizzaEntity.setNome("Margherita");
         pizzaEntity.setDescrizione("Pomodoro, Mozzarella, Basilico");
         pizzaEntity.setPrezzo(9.00);
@@ -57,7 +57,7 @@ public class ServicePizzaImplTest {
     public void testTrovaPizza() {
         // on recree l entiter
         Pizza pizzaEntity = new Pizza();
-        pizzaEntity.setId(1L);
+        pizzaEntity.setIdPizza(1L);
         pizzaEntity.setNome("Margherita");
 
         PizzaDTO pizzaDTO = new PizzaDTO(1L, "Margherita", "Desc", 9.00);
@@ -91,7 +91,7 @@ public class ServicePizzaImplTest {
 
         assertNotNull(result);
         assertEquals("Capricciosa", result.getNome());
-        assertEquals(id, result.getId());
+        assertEquals(id, result.getIdPizza());
     }
     @Test
     public void testCancellaPizza() {
@@ -109,7 +109,7 @@ public class ServicePizzaImplTest {
 
 
         assertNotNull(result);
-        assertEquals(id, result.getId());
+        assertEquals(id, result.getIdPizza());
         //on verifie que l actiondu service  a ete communiquer a la base de donnee. pour une suppression on fait une verification supplementaire
         verify(pizzaRepository, times(1)).deleteById(id);//1:on veut exactement un seul appel de la methode. time sert a voir la frequence d appel.
     }
@@ -119,14 +119,14 @@ public class ServicePizzaImplTest {
 
         //entiter1
         Pizza p1 = new Pizza();
-        p1.setId(1L);
+        p1.setIdPizza(1L);
         p1.setNome("Margherita");
         p1.setDescrizione("Pomodoro,mozzarella,basilico");
         p1.setPrezzo(9.00);
 
         //entiter2
         Pizza p2 = new Pizza();
-        p2.setId(2L);
+        p2.setIdPizza(2L);
         p2.setNome("4 Formaggi");
         p2.setDescrizione("mozzarella,pecorino,gorgonzola,buratta");
         p2.setPrezzo(10.00);

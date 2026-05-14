@@ -82,7 +82,7 @@ public class ServiceRiderImplTest {
 
         assertNotNull(result);
         assertEquals("Jean Grey",result.getNome());
-        assertEquals(id,result.getId());
+        assertEquals(id,result.getIdRider());
 
 
     }
@@ -99,7 +99,7 @@ public class ServiceRiderImplTest {
         RiderDTO result = serviceRiderImpl.licenzia(id);
 
         assertNotNull(result);
-        assertEquals(id,result.getId());
+        assertEquals(id,result.getIdRider());
 
         //on verifie que l actiondu service  a ete communiquer a la base de donnee. pour une suppression on fait une verification supplementaire
         //1:on veut exactement un seul appel de la methode. time sert a voir la frequence d appel.

@@ -37,7 +37,7 @@ public class ClienteRepositoryTest {
         Cliente saved = clienteRepository.save(c);
 
         assertNotNull(saved);
-        assertEquals(c.getId(), saved.getId());
+        assertEquals(c.getIdCliente(), saved.getIdCliente());
 
     }
     @Test
@@ -68,10 +68,10 @@ public class ClienteRepositoryTest {
 
         Cliente saved = clienteRepository.save(c);
 
-        Optional<Cliente> found = clienteRepository.findById(saved.getId());
+        Optional<Cliente> found = clienteRepository.findById(saved.getIdCliente());
 
         assertTrue(found.isPresent());
-        assertEquals(saved.getId(), found.get().getId());
+        assertEquals(saved.getIdCliente(), found.get().getIdCliente());
     }
 
     @Test
@@ -85,8 +85,8 @@ public class ClienteRepositoryTest {
 
         Cliente saved = clienteRepository.save(c);
 
-        clienteRepository.deleteById(saved.getId());
-        Optional<Cliente> deleted = clienteRepository.findById(saved.getId());
+        clienteRepository.deleteById(saved.getIdCliente());
+        Optional<Cliente> deleted = clienteRepository.findById(saved.getIdCliente());
 
         assertFalse(deleted.isPresent());
     }

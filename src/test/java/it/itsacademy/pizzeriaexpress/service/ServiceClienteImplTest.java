@@ -43,7 +43,7 @@ public class ServiceClienteImplTest {
     @Test
     public void testRegistraCliente() {
         Cliente c = new Cliente();
-        c.setId(1L);
+        c.setIdCliente(1L);
         c.setNome("Matt Pokora");
         c.setIndirizzo("Via Manzini 8");
         c.setTelefono("98181981");
@@ -58,7 +58,7 @@ public class ServiceClienteImplTest {
     public void testCercaCliente(){
 
         Cliente c = new Cliente();
-        c.setId(1L);
+        c.setIdCliente(1L);
         c.setNome("Matt Pokora");
         c.setIndirizzo("Via Manzini 8");
         c.setTelefono("98181981");
@@ -91,7 +91,7 @@ public class ServiceClienteImplTest {
 
         assertNotNull(result);
         assertEquals("Jiraya LeCochon",result.getNome());
-        assertEquals(id,result.getId());
+        assertEquals(id,result.getIdCliente());
 
 
     }
@@ -108,7 +108,7 @@ public class ServiceClienteImplTest {
         ClienteDTO result = serviceCliente.cancella(id);
 
         assertNotNull(result);
-        assertEquals(id,result.getId());
+        assertEquals(id,result.getIdCliente());
 
         //on verifie que l actiondu service  a ete communiquer a la base de donnee. pour une suppression on fait une verification supplementaire
         //1:on veut exactement un seul appel de la methode. time sert a voir la frequence d appel.
@@ -121,14 +121,14 @@ public class ServiceClienteImplTest {
 
         // Création de la première entité réelle
         Cliente c1 = new Cliente();
-        c1.setId(1L);
+        c1.setIdCliente(1L);
         c1.setNome("Matt Pokora");
         c1.setIndirizzo("Via Manzini 8");
         c1.setTelefono("98181981");
 
         // Création de la deuxième entité réelle
         Cliente c2 = new Cliente();
-        c2.setId(2L);
+        c2.setIdCliente(2L);
         c2.setNome("Jiraya Lecochon");
         c2.setIndirizzo("Via Valleariccia 7");
         c2.setTelefono("87987987987");
@@ -158,6 +158,5 @@ public class ServiceClienteImplTest {
         verify(clienteRepository, times(1)).findAll();
         verify(clienteUtility, times(1)).tuttiClienti(clienti);
     }
-
 
 }

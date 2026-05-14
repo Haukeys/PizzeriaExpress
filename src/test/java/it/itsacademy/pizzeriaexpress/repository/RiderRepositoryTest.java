@@ -36,7 +36,7 @@ public class RiderRepositoryTest {
         Rider saved = riderRepository.save(r);
 
         assertNotNull(saved);//on verifie que c est pas vide / null
-        assertEquals(r.getId(), saved.getId());// verification que c est le bon object/entiter
+        assertEquals(r.getIdRider(), saved.getIdRider());// verification que c est le bon object/entiter
 
     }
      @Test
@@ -64,10 +64,10 @@ public class RiderRepositoryTest {
 
          Rider saved = riderRepository.save(r);
 
-         Optional<Rider> found = riderRepository.findById(saved.getId());
+         Optional<Rider> found = riderRepository.findById(saved.getIdRider());
 
          assertTrue(found.isPresent());//on verifie que objet est present
-         assertEquals(saved.getId(), found.get().getId());//on verifie si cest le bonne object
+         assertEquals(saved.getIdRider(), found.get().getIdRider());//on verifie si cest le bonne object
 
          }
      @Test
@@ -78,8 +78,8 @@ public class RiderRepositoryTest {
 
          Rider saved = riderRepository.save(r);
 
-         riderRepository.deleteById(saved.getId());
-         Optional<Rider> deleted = riderRepository.findById(saved.getId());
+         riderRepository.deleteById(saved.getIdRider());
+         Optional<Rider> deleted = riderRepository.findById(saved.getIdRider());
 
          assertFalse(deleted.isPresent());//on verifie que l object soit eliminer
     }
