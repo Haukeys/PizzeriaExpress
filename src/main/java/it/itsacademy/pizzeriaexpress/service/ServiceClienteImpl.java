@@ -39,64 +39,7 @@ public class ServiceClienteImpl implements ServiceCliente {
 
     @Override
     public ClienteDTO registrazione(RegistrazioneClienteDTO registrazioneDTO) {
-// 1. Création du Cliente
-        Cliente cliente = new Cliente();
-        cliente.setNome(registrazioneDTO.getNome());
-        cliente.setIndirizzo(registrazioneDTO.getIndirizzo());
-        cliente.setTelefono(registrazioneDTO.getTelefono());
-
-        // Initialisation de la collection du client (car @OneToMany)
-        List<Ordine> listaOrdini = new ArrayList<>();
-
-        if (registrazioneDTO.getOrdini() != null) {
-            for (OrdineNascitaClienteDTO oDto : registrazioneDTO.getOrdini()) {
-
-                Ordine ordineEntity;
-
-                // Logique d'héritage
-                if (oDto.getIdRider() != null) {
-                    OrdinePrioritario op = new OrdinePrioritario();
-                    Rider r = riderRepository.findById(oDto.getIdRider())
-                            .orElseThrow(() -> new RuntimeException("Rider non trovato"));
-                    op.setRider(r);
-                    op.setSovrapprezzo(5.0);
-                    ordineEntity = op;
-                } else {
-                    ordineEntity = new Ordine();
-                }
-
-                ordineEntity.setCodice(oDto.getCodice());
-
-                // 2. Gestion des pizzas (Collection interne à Ordine)
-                List<OrdinePizza> lignesPizze = new ArrayList<>();
-                for (OrdinePizzaNascitaDTO pDto : oDto.getOrdini_pizze()) {
-                    Pizza pizza = pizzaRepository.findById(pDto.getIdPizza())
-                            .orElseThrow(() -> new RuntimeException("Pizza non trovata"));
-
-                    OrdinePizza riga = new OrdinePizza();
-                    riga.setPizza(pizza);
-                    riga.setQuantita(pDto.getQuantita());
-
-                    // IMPORTANT : On n'appelle PAS setOrdine() car il n'existe pas dans ton schéma
-                    lignesPizze.add(riga);
-                }
-
-                // On affecte la collection de pizzas à l'ordre
-                ordineEntity.setOrdini_pizze(lignesPizze);
-
-                // On ajoute l'ordre à la liste du client
-                listaOrdini.add(ordineEntity);
-            }
-        }
-
-        // 3. On affecte la liste d'ordres au client
-        cliente.setOrdini(listaOrdini);
-
-        // 4. Sauvegarde
-        // Note : Ton schéma utilise CascadeType.PERSIST, ce qui est parfait ici
-        Cliente clienteSalvato = clienteRepository.save(cliente);
-
-        return utilCliente.clienteToClienteDTO(clienteSalvato);
+    return null;
 
     }
 
