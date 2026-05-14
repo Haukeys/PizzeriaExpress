@@ -23,7 +23,7 @@ public class Cliente {
     private String Indirizzo;
     @Column(nullable = false)
     private String telefono;
-
+    //passa da qui per find cliente ordine
     @OneToMany(cascade = {CascadeType.PERSIST},orphanRemoval = true)//non dimenticare che il cliente fa degli ordini e che è noto alla nascita
     @JoinColumn(name="fk_ordine")
     @Column(nullable = false)

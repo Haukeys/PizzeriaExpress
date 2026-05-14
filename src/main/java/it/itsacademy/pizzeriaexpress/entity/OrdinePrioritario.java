@@ -19,6 +19,6 @@ import lombok.Setter;
 public class OrdinePrioritario extends Ordine {
 
     @Column(nullable = false)
-    private Double sovraprezzo;
+    private Double sovrapprezzo;
 
 }

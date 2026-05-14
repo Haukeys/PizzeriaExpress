@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -26,15 +26,9 @@ public class Ordine {
     @Column(nullable = false)
     private Collection<OrdinePizza> ordini_pizze;
 
-    @OneToMany
-    @JoinColumn(name="fk_cliente")
-    @Column(nullable = false)
-    private List<Cliente> clienti;
-
     @ManyToOne
     @JoinColumn(name="fk_rider")
-    private List<Rider> riders;
-
+    private Rider riders;
 
 
 }
