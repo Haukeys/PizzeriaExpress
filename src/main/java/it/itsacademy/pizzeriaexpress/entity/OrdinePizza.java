@@ -16,10 +16,11 @@ public class OrdinePizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ordine_pizza")//allignamento con il db
     private Long id;
+    @Column(nullable = false)
     private Integer quantita;
 
     @ManyToOne
-    @JoinColumn(name ="fk_pizza")
+    @JoinColumn(name ="fk_pizza",nullable = false)
     private Pizza pizza;
 
 }
