@@ -6,6 +6,7 @@ import it.itsacademy.pizzeriaexpress.dto.OrdineNascitaClienteDTO;
 import it.itsacademy.pizzeriaexpress.dto.OrdinePizzaNascitaDTO;
 import it.itsacademy.pizzeriaexpress.dto.RegistrazioneClienteDTO;
 import it.itsacademy.pizzeriaexpress.entity.*;
+import it.itsacademy.pizzeriaexpress.exception.BadRequestException;
 import it.itsacademy.pizzeriaexpress.exception.NotFoundException;
 import it.itsacademy.pizzeriaexpress.repository.ClienteRepository;
 import it.itsacademy.pizzeriaexpress.repository.PizzaRepository;
@@ -37,9 +38,23 @@ public class ServiceClienteImpl implements ServiceCliente {
     @Autowired
     private RiderRepository riderRepository; // Pour vérifier le rider existant
 
+    @Autowired
+    private ServiceOrdine serviceOrdine;
+
+
     @Override
-    public ClienteDTO registrazione(RegistrazioneClienteDTO registrazioneDTO) {
-    return null;
+    public ClienteDTO registrazione(RegistrazioneClienteDTO registrazioneCliente) {
+
+        if (registrazioneCliente.getIdCliente() == null || registrazioneCliente.getOrdini().isEmpty())
+            throw new BadRequestException("il cliente deve registrasi con un ordine");
+        registrazioneCliente.setIdCliente(null);
+        Cliente cliente = utilCliente.registrazioneCliente(registrazioneCliente);
+        cliente.setOrdini(new ArrayList<>());
+        Cliente saved = clienteRepository.saveAndFlush(cliente);
+        for(OrdineNascitaClienteDTO ordineDTO : registrazioneCliente.getOrdini()){
+        serviceOrdine.creaOrdine(saved.getIdCliente(),ordineDTO);
+        }
+        return utilCliente.clienteToClienteDTO(saved);
 
     }
 

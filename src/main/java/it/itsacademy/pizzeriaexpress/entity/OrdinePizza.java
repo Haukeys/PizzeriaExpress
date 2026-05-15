@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Table(name="OrdinePizza")
 public class OrdinePizza {
     @Id
-    private Long idOrdinePizza;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_ordine_pizza")//allignamento con il db
+    private Long id;
     private Integer quantita;
 
     @ManyToOne

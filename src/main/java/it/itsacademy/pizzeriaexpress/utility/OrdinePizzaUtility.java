@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = { PizzaUtility.class })//car utiliser dans cette classe {} facilite l autocreation/complilation
 public interface OrdinePizzaUtility {
-    @Mapping(target = "idOrdinePizza", ignore = true)
+    @Mapping(target = "id", ignore = true)
     public OrdinePizza ordinePizzaDTOToOrdinePizza(OrdinePizzaDTO ordinePizzaDTO);
     public OrdinePizza ordinePizzaDTOToOrdinePizza(OrdinePizzaNascitaDTO ordinePizzaNascitaDTO);
     public OrdinePizzaDTO ordinePizzaToOrdinePizzaDTO(OrdinePizza ordinePizza);

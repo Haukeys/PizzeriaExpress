@@ -20,5 +20,9 @@ public class GlobalHandlerException {
     public ResponseEntity<ErroreDTO> error400BadRequest() {
         return new ResponseEntity<>(new ErroreDTO(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErroreDTO> error409BadRequest() {
+        return new ResponseEntity<>(new ErroreDTO(), HttpStatus.CONFLICT);
+    }
 
 }

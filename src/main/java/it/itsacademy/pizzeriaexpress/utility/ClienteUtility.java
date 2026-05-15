@@ -2,6 +2,7 @@ package it.itsacademy.pizzeriaexpress.utility;
 
 
 import it.itsacademy.pizzeriaexpress.dto.ClienteDTO;
+import it.itsacademy.pizzeriaexpress.dto.RegistrazioneClienteDTO;
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
 import org.mapstruct.Mapper;
 
@@ -12,5 +13,6 @@ public interface ClienteUtility {
 
     public  Cliente clienteDTOToCliente(ClienteDTO clienteDTO);
     public  ClienteDTO clienteToClienteDTO(Cliente cliente);
+    public  Cliente registrazioneCliente(RegistrazioneClienteDTO registrazioneCliente);
     public Collection<ClienteDTO> tuttiClienti(Collection<Cliente> clienti);
 }

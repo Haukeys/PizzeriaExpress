@@ -18,7 +18,7 @@ import lombok.Setter;
 @DiscriminatorValue("prioritario")
 public class OrdinePrioritario extends Ordine {
 
-    @Column(nullable = false)
+    @Column(nullable = true)//dipende se l ordine ha un rider
     private Double sovrapprezzo;
 
 }

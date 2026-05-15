@@ -2,6 +2,7 @@ package it.itsacademy.pizzeriaexpress.controller;
 
 
 import it.itsacademy.pizzeriaexpress.dto.OrdineDTO;
+import it.itsacademy.pizzeriaexpress.dto.OrdineNascitaClienteDTO;
 import it.itsacademy.pizzeriaexpress.dto.PizzaDTO;
 import it.itsacademy.pizzeriaexpress.service.ServiceOrdine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class OrdineController {
     private ServiceOrdine serviceOrdine;
 
     @PostMapping(path="/{idCliente}", consumes = "application/json", produces = "application/json")
-    public OrdineDTO createOrdine(@PathVariable Long idCliente, @RequestBody OrdineDTO ordineDTO) {
+    public OrdineDTO createOrdine(@PathVariable Long idCliente, @RequestBody OrdineNascitaClienteDTO ordineDTO) {
         return serviceOrdine.creaOrdine(idCliente, ordineDTO);
     }
 

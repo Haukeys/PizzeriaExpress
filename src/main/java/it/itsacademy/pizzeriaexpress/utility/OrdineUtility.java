@@ -14,7 +14,7 @@ public interface OrdineUtility {
     public Ordine ordineDTOToOrdine(OrdineDTO ordineDTO);
 
     @Mapping(target = "rider", ignore = true)
-    public OrdineDTO ordineDTOToOrdine(OrdineNascitaClienteDTO ordineNascitaDTO);
+    public OrdineDTO ordineNascitaClienteDTOToOrdine(OrdineNascitaClienteDTO ordineNascitaDTO);
     public OrdineDTO ordineToOrdineDTO(Ordine ordine);
     public Collection<OrdineDTO> tuttiOrdini(Collection<Ordine> ordini);
 }

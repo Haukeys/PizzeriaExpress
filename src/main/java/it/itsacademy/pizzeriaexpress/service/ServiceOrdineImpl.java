@@ -1,18 +1,20 @@
 package it.itsacademy.pizzeriaexpress.service;
-import it.itsacademy.pizzeriaexpress.dto.OrdineDTO;
-import it.itsacademy.pizzeriaexpress.dto.OrdinePizzaDTO;
-import it.itsacademy.pizzeriaexpress.dto.PizzaDTO;
+import it.itsacademy.pizzeriaexpress.dto.*;
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
 import it.itsacademy.pizzeriaexpress.entity.Ordine;
+import it.itsacademy.pizzeriaexpress.entity.Rider;
 import it.itsacademy.pizzeriaexpress.exception.BadRequestException;
+import it.itsacademy.pizzeriaexpress.exception.ConflictException;
 import it.itsacademy.pizzeriaexpress.exception.NotFoundException;
 import it.itsacademy.pizzeriaexpress.repository.ClienteRepository;
 import it.itsacademy.pizzeriaexpress.repository.OrdineRepository;
+import it.itsacademy.pizzeriaexpress.repository.RiderRepository;
 import it.itsacademy.pizzeriaexpress.utility.OrdineUtility;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -32,25 +34,52 @@ public class ServiceOrdineImpl implements ServiceOrdine {
     @Autowired
     private ServicePizza pizzaService;
 
-   @Override
-   public OrdineDTO creaOrdine(Long id,OrdineDTO ordineDTO) {
-
-   Cliente clienteDelOrdine = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
-
-   //controllo che un ordine abbia almeno una pizza
-        if(ordineDTO.getOrdini_pizze()==null || ordineDTO.getOrdini_pizze().isEmpty()){
-            throw new BadRequestException("L'ordine deve contenere almeno una pizza");
-        }
-
-       Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(ordineDTO));
-       clienteDelOrdine.getOrdini().add(saved);
-
-       return utilOrdine.ordineToOrdineDTO(saved);
-    }
+    @Autowired
+    private RiderRepository riderRepository;
 
     @Override
-    public OrdineDTO cercaOrdine(Long id, String codice) {
-        Cliente clienteDelOrdine = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
+    public OrdineDTO creaOrdine(Long idCliente ,OrdineNascitaClienteDTO ordineNascitaDTO){
+        if (ordineRepository.existsById(ordineNascitaDTO.getCodice()))
+            throw new ConflictException("Esiste già un ordine con codice " + ordineNascitaDTO.getCodice());
+
+
+        Cliente clienteOrditore = clienteRepository.findById(idCliente).orElseThrow(
+                () -> new NotFoundException(idCliente+":id del cliente inesistente o non trovato")
+        );
+
+        if (ordineNascitaDTO.getOrdini_pizze() == null || ordineNascitaDTO.getOrdini_pizze().isEmpty()) {
+            throw new BadRequestException("L'ordine deve avere  almeno una pizza");
+        }
+
+        OrdineDTO daSalvare = utilOrdine.ordineNascitaClienteDTOToOrdine(ordineNascitaDTO);
+        daSalvare.setOrdini_pizze(new ArrayList<>());
+
+        for (OrdinePizzaNascitaDTO pizzaOrdinata : ordineNascitaDTO.getOrdini_pizze()) {
+
+            PizzaDTO pizzaTrovata = pizzaService.trovaPizza(pizzaOrdinata.getIdPizza());
+
+            OrdinePizzaDTO op = new OrdinePizzaDTO();
+            op.setPizza(pizzaTrovata);
+            op.setQuantita(pizzaOrdinata.getQuantita());
+
+            daSalvare.getOrdini_pizze().add(op);
+        }
+
+        Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(daSalvare)); // ordine senza il suo cliente
+        clienteOrditore.getOrdini().add(saved); // collega cliente con nuovo ordine
+
+        // Cerca il rider se ordine prioritario
+        if (ordineNascitaDTO.getIdRider() != null) {
+            Rider riderTrovato = riderRepository.findById(ordineNascitaDTO.getIdRider())
+                    .orElseThrow(() -> new NotFoundException("rider con id " + ordineNascitaDTO.getIdRider()+"non trovato o inesistente"));
+            saved.setRider(riderTrovato);
+        }
+
+        return utilOrdine.ordineToOrdineDTO(saved);
+    }
+    @Override
+    public OrdineDTO cercaOrdine(Long idCliente,String codice) {
+        Cliente clienteDelOrdine = clienteRepository.findById(idCliente).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
         Ordine found = clienteDelOrdine.getOrdini().stream()
                 .filter(ordine -> ordine.getCodice().equals(codice))
                 .findFirst().orElseThrow(()-> new NotFoundException("Ordine con "+codice+" non trovato"));
@@ -58,17 +87,17 @@ public class ServiceOrdineImpl implements ServiceOrdine {
     }
 
     @Override
-    public OrdineDTO modificaOrdine(Long id, String codice, OrdineDTO ordineDTO) {
+    public OrdineDTO modificaOrdine(Long idCliente, String codice, OrdineDTO ordineDTO) {
         ordineDTO.setCodice(codice);
-        cercaOrdine(id, codice);
+        cercaOrdine(idCliente, codice);
         Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(ordineDTO));
         return utilOrdine.ordineToOrdineDTO(saved);
     }
 
     @Override
-    public OrdineDTO cancellaOrdine(Long id, String codice) {
-        OrdineDTO target = cercaOrdine(id,codice);
-        clienteRepository.deleteById(id);
+    public OrdineDTO cancellaOrdine(Long idCliente, String codice) {
+        OrdineDTO target = cercaOrdine(idCliente,codice);
+        clienteRepository.deleteById(idCliente);
         return target;
     }
 
@@ -78,10 +107,10 @@ public class ServiceOrdineImpl implements ServiceOrdine {
    }
 
     @Override
-    public OrdineDTO aggiungiPizza(Long id, String codice, PizzaDTO pizza ,Integer quantita) {
-        PizzaDTO p = pizzaService.trovaPizza(id);
+    public OrdineDTO aggiungiPizza(Long idCliente, String codice, PizzaDTO pizza ,Integer quantita) {
+        PizzaDTO p = pizzaService.trovaPizza(idCliente);
 
-        OrdineDTO ordineDTO = cercaOrdine(id,codice);
+        OrdineDTO ordineDTO = cercaOrdine(idCliente,codice);
         ordineDTO.getOrdini_pizze().add(new OrdinePizzaDTO(quantita, pizza));
 
         Ordine saved = ordineRepository.save(utilOrdine.ordineDTOToOrdine(ordineDTO));
