@@ -2,7 +2,10 @@ package it.itsacademy.pizzeriaexpress.utility;
 import it.itsacademy.pizzeriaexpress.dto.OrdineDTO;
 
 import it.itsacademy.pizzeriaexpress.dto.OrdineNascitaClienteDTO;
+import it.itsacademy.pizzeriaexpress.dto.OrdinePrioritarioDTO;
+import it.itsacademy.pizzeriaexpress.dto.OrdinePrioritarioNascitaClienteDTO;
 import it.itsacademy.pizzeriaexpress.entity.Ordine;
+import it.itsacademy.pizzeriaexpress.entity.OrdinePrioritario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,6 +18,12 @@ public interface OrdineUtility {
 
     @Mapping(target = "rider", ignore = true)
     public OrdineDTO ordineNascitaClienteDTOToOrdine(OrdineNascitaClienteDTO ordineNascitaDTO);
+    @Mapping(target = "rider", ignore = true)
+    public OrdinePrioritarioDTO odinePrioritarioNascitaClienteDTOToOrdine(OrdinePrioritarioNascitaClienteDTO ordinePrioritarioDTO);
+
     public OrdineDTO ordineToOrdineDTO(Ordine ordine);
+    public OrdinePrioritarioDTO ordinePrioritarioDTOToOrdinePrioritario(OrdinePrioritario ordinePrioritario);
+
     public Collection<OrdineDTO> tuttiOrdini(Collection<Ordine> ordini);
+    public Collection<OrdinePrioritarioDTO> tuttiOrdiniPrioritari(Collection<OrdinePrioritario> ordini);
 }
