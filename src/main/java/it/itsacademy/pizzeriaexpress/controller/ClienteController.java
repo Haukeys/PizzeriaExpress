@@ -18,7 +18,8 @@ public class ClienteController {
     private ServiceCliente serviceCliente;
 
     // CHANGEMENT : On reçoit le RegistrazioneClienteDTO (celui avec les IDs)
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json") //pour les prochain project utiliser Mediatype. a la place de application/json
+
     public ClienteDTO registraCliente(@RequestBody RegistrazioneClienteDTO registrazioneDTO) {
 
         // On appelle la méthode de naissance que nous avons codée
