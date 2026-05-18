@@ -15,14 +15,14 @@ import java.util.Collection;
 public interface OrdineUtility {
 
     public Ordine ordineDTOToOrdine(OrdineDTO ordineDTO);
-
+    public OrdinePrioritario ordinePrioritarioDTOToOrdinePrioritario(OrdinePrioritarioDTO ordinePrioritario);
     @Mapping(target = "rider", ignore = true)
     public OrdineDTO ordineNascitaClienteDTOToOrdine(OrdineNascitaClienteDTO ordineNascitaDTO);
     @Mapping(target = "rider", ignore = true)
     public OrdinePrioritarioDTO odinePrioritarioNascitaClienteDTOToOrdine(OrdinePrioritarioNascitaClienteDTO ordinePrioritarioDTO);
 
     public OrdineDTO ordineToOrdineDTO(Ordine ordine);
-    public OrdinePrioritarioDTO ordinePrioritarioDTOToOrdinePrioritario(OrdinePrioritario ordinePrioritario);
+    public OrdinePrioritarioDTO ordinePrioritarioToOrdinePrioritarioDTO(OrdinePrioritario ordinePrioritario);
 
     public Collection<OrdineDTO> tuttiOrdini(Collection<Ordine> ordini);
     public Collection<OrdinePrioritarioDTO> tuttiOrdiniPrioritari(Collection<OrdinePrioritario> ordini);

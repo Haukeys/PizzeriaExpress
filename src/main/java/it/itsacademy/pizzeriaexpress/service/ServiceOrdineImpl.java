@@ -2,6 +2,7 @@ package it.itsacademy.pizzeriaexpress.service;
 import it.itsacademy.pizzeriaexpress.dto.*;
 import it.itsacademy.pizzeriaexpress.entity.Cliente;
 import it.itsacademy.pizzeriaexpress.entity.Ordine;
+import it.itsacademy.pizzeriaexpress.entity.OrdinePrioritario;
 import it.itsacademy.pizzeriaexpress.entity.Rider;
 import it.itsacademy.pizzeriaexpress.exception.BadRequestException;
 import it.itsacademy.pizzeriaexpress.exception.ConflictException;
@@ -77,6 +78,40 @@ public class ServiceOrdineImpl implements ServiceOrdine {
 
         return utilOrdine.ordineToOrdineDTO(saved);
     }
+
+    @Override
+    public OrdinePrioritarioDTO creaOrdinePrioritario(Long idCliente, OrdinePrioritarioNascitaClienteDTO nuovoOrdinePrioritario){
+        Cliente clienteOrditore = clienteRepository.findById(idCliente).orElseThrow(
+                () -> new NotFoundException(idCliente+":id del cliente inesistente o non trovato")
+        );
+
+        OrdinePrioritarioDTO toSaved = utilOrdine.odinePrioritarioNascitaClienteDTOToOrdine(nuovoOrdinePrioritario);
+        toSaved.setOrdini_pizze(new ArrayList<>());
+
+        for (OrdinePizzaNascitaDTO pizzaOrdinata : nuovoOrdinePrioritario.getOrdini_pizze()) {
+
+            PizzaDTO pizzaTrovata = pizzaService.trovaPizza(pizzaOrdinata.getIdPizza());
+
+            OrdinePizzaDTO op = new OrdinePizzaDTO();
+            op.setPizza(pizzaTrovata);
+            op.setQuantita(pizzaOrdinata.getQuantita());
+
+            toSaved.getOrdini_pizze().add(op);
+        }
+
+        OrdinePrioritario saved = ordineRepository.save(utilOrdine.ordinePrioritarioDTOToOrdinePrioritario(toSaved)); // ordine senza il suo cliente
+        clienteOrditore.getOrdini().add(saved); // collega cliente con nuovo ordine
+
+        // Cerca il rider se ordine prioritario
+        if (nuovoOrdinePrioritario.getIdRider() != null) {
+            Rider riderTrovato = riderRepository.findById(nuovoOrdinePrioritario.getIdRider())
+                    .orElseThrow(() -> new NotFoundException("rider con id " + nuovoOrdinePrioritario.getIdRider()+"non trovato o inesistente"));
+            saved.setRider(riderTrovato);
+        }
+
+        return utilOrdine.ordinePrioritarioToOrdinePrioritarioDTO(saved);
+    }
+
     @Override
     public OrdineDTO cercaOrdine(Long idCliente,String codice) {
         Cliente clienteDelOrdine = clienteRepository.findById(idCliente).orElseThrow(()-> new NotFoundException("Il cliente che ha fatto l ordine non è stato trovato/inesistente"));
@@ -105,6 +140,23 @@ public class ServiceOrdineImpl implements ServiceOrdine {
     public Collection<OrdineDTO> tuttiOrdini(){
        return utilOrdine.tuttiOrdini(ordineRepository.findAll());
    }
+
+    @Override
+    public Collection<OrdineDTO> tuttiOrdiniNonPrioritari() {
+        return utilOrdine.tuttiOrdini(ordineRepository.findAll()
+                .stream()
+                .filter((ord) -> !(ord instanceof OrdinePrioritario))
+                .toList());
+    }
+
+    @Override
+    public Collection<OrdinePrioritarioDTO> tuttiOrdiniPrioritari() {
+        return utilOrdine.tuttiOrdiniPrioritari(ordineRepository.findAll()
+                .stream()
+                .filter((ord) -> ord instanceof OrdinePrioritario)
+                .map((ord) -> (OrdinePrioritario) ord)
+                .toList());
+    }
 
     @Override
     public OrdineDTO aggiungiPizza(Long idCliente, String codice, PizzaDTO pizza ,Integer quantita) {

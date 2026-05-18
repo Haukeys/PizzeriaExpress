@@ -14,6 +14,7 @@ public interface ServiceOrdine {
     public OrdineDTO modificaOrdine(Long idCliente, String codice, OrdineDTO ordineDTO) ;
     public OrdineDTO cancellaOrdine(Long idCliente,String Codice);
     public Collection<OrdineDTO> tuttiOrdini();
+    public Collection<OrdineDTO> tuttiOrdiniNonPrioritari();
     public Collection<OrdinePrioritarioDTO> tuttiOrdiniPrioritari();
     public OrdineDTO aggiungiPizza(Long idCliente, String codice, PizzaDTO pizza, Integer quantita);
 }
