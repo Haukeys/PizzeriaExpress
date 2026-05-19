@@ -29,9 +29,14 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry
                         -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/pizze/**").authenticated().anyRequest().permitAll())//permet a ces endpoint de pas avoir besoin de authen
+                        .requestMatchers(
+                                "/clienti/**",
+                                "/riders/**",
+                                "/ordini/**"
+                                ).authenticated()
+                        .anyRequest().permitAll())//permet a ces endpoint de pas avoir besoin de authen
                 //ici on implemente ce qu on veut mettre sous anthentification
-                .httpBasic(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())peut causer des conflit car s execute en arriere plan en plus de celui de APIKEY
                 .sessionManagement(httpSecuritySessionManagementConfigurer
                         -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // CHANGEMENT : Au lieu de faire "new AuthenticationFilter()",

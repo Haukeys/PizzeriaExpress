@@ -37,7 +37,11 @@ public class AuthenticationFilter extends GenericFilterBean {//applee aussi apif
             // et non plus sur la Classe globale "AuthenticationService" (Majuscule).
 
             Authentication authentication = authenticationService.getAuthentication((HttpServletRequest) request);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            //CHANGEMENT APRES LE PROBLEME AVEC SECURITY CONFIG
+            if (authentication != null){// AJOUT : On ne remplit le contexte que si une authentification a été trouvée
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);}
+            //CONTROLE SI L AUTHENTIFICATION EST DIFFERENT DE NULL
             filterChain.doFilter(request, response);
         } catch (Exception exp) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;

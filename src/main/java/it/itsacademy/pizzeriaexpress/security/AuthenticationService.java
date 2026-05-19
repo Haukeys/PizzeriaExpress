@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class AuthenticationService {//apiservice
 
     //ça ne change pas
+
     private static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY"; //key termine nella documentazione
 
     // CHANGEMENT : Utilisation de @Value pour charger la clé dynamiquement.
@@ -27,8 +28,10 @@ public class AuthenticationService {//apiservice
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
 
         // AUTH_TOKEN n'est plus rouge ici car la méthode n'est plus statique !
-        if (apiKey == null || !apiKey.equals(AUTH_TOKEN)) {
-            throw new BadCredentialsException("Invalid API Key");
+        if (apiKey == null) {return null;}//// AJOUT : Si pas de clé fournie, on retourne null.
+        // Spring Security comprendra que l'utilisateur est anonyme et vérifiera si la route est publique.
+        //CHANGEMENT LIGNE 31 ET 34 SEPARATION DE SI LA VALEUR EST NULL
+        if(!apiKey.equals(AUTH_TOKEN)){throw new BadCredentialsException("Invalid API Key");
         }
 
         return new ApiKeyAuthentication(apiKey, AuthorityUtils.NO_AUTHORITIES);
